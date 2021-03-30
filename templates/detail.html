@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+
+{% block detail %}
+  <div class="entry-list single">
+                      <article>
+                          <h1>{{ entry.Title }}</h1>
+                          <time datetime="{{entry.date}}">{{ entry.date }}</time>
+                          <div class="entry">
+                              <h3>Time Spent: </h3>
+                              {% if entry.Time_Spent > 1 %}
+                                <p>{{ entry.Time_Spent }} Hours</p>
+                              {% else %}
+                                <p>{{ entry.Time_Spent }} Hour</p>
+                              {% endif %}
+                          </div>
+                          <div class="entry">
+                              <h3>What I Learned:</h3>
+                                {% if entry.What_You_Learned %}
+                                       {% for line in entry.What_You_Learned.split('\n') %}
+                                           <p>{{ line }}</p>
+                                       {% endfor %}
+                                {% endif %}
+                          </div>
+                          <div class="entry">
+                              <h3>Resources to Remember:</h3>
+                              <ul>
+                                {% if entry.Resources_to_Remember %}
+                                  {% for line in entry.Resources_to_Remember.split('\n') %}
+                                    {% if line.find('http') > -1 or line.find('www.') > -1 %}
+                                      <li><a href="{{ line }}">{{ line }}</a></li>
+                                    {% else %}
+                                      <li>{{ line }}</li>
+                                    {% endif %}
+                                  {% endfor %}
+                                {% endif %}
+                              </ul>
+                          </div>
+                          <div class="entry">
+                              <h3>Tags:</h3>
+                                <p>{{ entry.tags }}</p>
+                          </div>
+                          <div class="entry">
+                                <i>Author: {{ entry.owner }}</i>
+                          </div>
+                      </article>
+  </div>
+{% endblock %}
+
+{% block detail2 %}
+<a class="button icon-left" href="{{ url_for('edit', id=entry.entry_id) }}"><span>Edit Entry</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
+<a class="button icon-left" href="{{ url_for('delete', id=entry.entry_id) }}"><span>Delete Entry</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
+{% endblock %}

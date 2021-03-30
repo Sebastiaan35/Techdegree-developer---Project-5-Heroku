@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>MyJournal</title>
+        <link href="https://fonts.googleapis.com/css?family=Cousine:400" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Work+Sans:600" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="/static/css/normalize.css">
+        <link rel="stylesheet" href="/static/css/site.css">
+    </head>
+
+    <body>
+        {% for mesg in get_flashed_messages() %}
+          <h1 style="text-align:center">{{ mesg }}</h1>
+        {% endfor %}
+        <header>
+            <div class="container">
+                <div class="site-header">
+                    <a class="logo" href="{{ url_for('index')}}"><i class="material-icons">library_books</i></a>
+                    <div class="site-header">
+                      {% if current_user.is_authenticated %}
+                      <h5 style="text-align:right">Logged in: {{ current_user.username }}</h5>
+                      <a class="button icon-left" href="{{ url_for('Create_Entry')}}"><span>New Entry</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
+                      {% block detail2 %}{% endblock %}
+                      <a class="button icon-right" href="{{ url_for('logout') }}"><span>Logout</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
+                      {% else %}
+                      <a class="button icon-right" href="{{ url_for('login') }}"><span>Login</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
+                      <a class="button icon-right" href="{{ url_for('register') }}"><span>Register</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
+                      {% endif %}
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section>
+            <div class="container">
+                {% block all_entries %}{% endblock %}
+                {% block new_entry %}{% endblock %}
+                {% block edit_entry %}{% endblock %}
+                {% block detail %}{% endblock %}
+                {% block register %}{% endblock %}
+                {% block login %}{% endblock %}
+            </div>
+        </section>
+        <footer>
+            <div>
+                &copy; Sebastiaan's Journal
+            </div>
+        </footer>
+    </body>
+</html>

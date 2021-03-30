@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+
+{% block all_entries %}
+  <div class="entry-list">
+
+    {% for entry in stream %}
+        <article>
+                <h2><a href="{{ url_for('detail', id=entry.entry_id) }}">{{ entry.Title }}</a></h2>
+                {% for tag in entry.tags.split(', ') %}
+                  <i><a href="{{ url_for('Retrieve_By_Tag', tag=tag) }}">{{ tag }}</a></i>
+                {% endfor %}
+                <br><br>
+                <time datetime="{{ entry.date }}">Date: {{ entry.date }}</time> - By: {{ entry.owner }}
+        </article>
+    {% endfor %}
+
+  </div>
+{% endblock %}

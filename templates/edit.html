@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% from 'macros.html' import render_field %}
+
+{% block edit_entry %}
+  <div class="new-entry">
+    <h2>Edit Entry</h2>
+    <form method="POST" action="{{ url_for('edit', id=id) }}" class="form">
+        {{ form.hidden_tag() }}
+        {% for field in form %}
+            {{ render_field(field) }}
+        {% endfor %}
+        <input type="submit" value="Publish Entry" class="button">
+        <a href="{{ url_for('detail', id=id) }}" class="button button-secondary">Cancel</a>
+    </form>
+    {% if not current_user.is_authenticated %}
+      <h2>not authenticated</h2>
+      <br><br><br><br><br><br><br>
+    {% endif %}
+  </div>
+{% endblock %}
