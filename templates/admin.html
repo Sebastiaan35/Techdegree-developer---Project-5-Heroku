@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+
+{% block users %}
+
+  <div class="user-list">
+    <h2>Edit Admin Rights</h2><br><br>
+    <form method="POST" action="{{ url_for('admin') }}" class="form">
+      {% for user in users %}
+        <article>
+          <label class="container">{{ user.username }}
+            <input type="checkbox" id="admin rights" name="{{ user.username }}"
+              {% if user.is_admin %}
+                checked= "checked">
+              {% endif %}
+            <span class="checkmark"></span>
+          </label><br>
+        </article>
+    {% endfor %}
+    <br><br>
+    <input type="submit" value="Confirm admin settings" class="button">
+    <a href="{{ url_for('index') }}" class="button button-secondary">Cancel</a>
+    <br><br><br><br>
+  </div>
+{% endblock %}

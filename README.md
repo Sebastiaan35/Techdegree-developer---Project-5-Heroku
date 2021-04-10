@@ -1,8 +1,14 @@
-This is Project 5 - Build a Learning Journal with Flask - of the Teamtreehouse developer techdegree
+This is an extended version of Project 5 - Build a Learning Journal with Flask - of the Teamtreehouse developer techdegree
+This version also has:
+-admin features
+-CSV to database functionality for both entries and user creation
+-Automatic weblinks
 
-Work in progress
+
+
+
 Developed by: Sebastiaan van Vugt
-Date: 14.Feb.2021
+Date: 10.April.2021
 
 
 Summary

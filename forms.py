@@ -1,23 +1,31 @@
-from flask_wtf import FlaskForm as Form
-from wtforms import StringField, PasswordField, DateField, IntegerField, TextAreaField
-from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
-                               Length, EqualTo)
+#!/usr/bin/env python3
+"""The forms part"""
 
-from models import Journal
+from flask_wtf import FlaskForm as Form
+from wtforms import (StringField, PasswordField, IntegerField, TextAreaField,
+                     DateField, BooleanField)
+from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
+                                Length, EqualTo)
+
 from models import User
 
-#The register and login code is based on the Treehouse course building a social network with Flask
+
+# The register and login code is based on the Treehouse course
+# Building a social network with Flask
 def name_exists(form, field):
+    """Check if username already in database"""
     if User.select().where(User.username == field.data).exists():
         raise ValidationError('User with that name already exists.')
 
 
 def email_exists(form, field):
+    """Check if email address already in database"""
     if User.select().where(User.email == field.data).exists():
         raise ValidationError('User with that email already exists.')
 
 
 class RegisterForm(Form):
+    """The registration form"""
     username = StringField(
         'Username',
         validators=[
@@ -50,14 +58,28 @@ class RegisterForm(Form):
 
 
 class LoginForm(Form):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    """The login form"""
+    email = StringField('Email', validators=[DataRequired(
+        message='Please fill in an email address.'), Email(
+        message='This is not a valid email address.')])
+    password = PasswordField('Password', validators=[DataRequired(
+        message='Please fill in a password.')])
 
 
-class neform(Form):
-    Title = StringField("Title", validators=[DataRequired()])
-    date  = StringField("Date", validators=[DataRequired()])
-    Time_Spent = IntegerField("Time spent (hours as int)", validators=[DataRequired()])
-    What_You_Learned = TextAreaField("Learned", validators=[DataRequired()])
-    Resources_to_Remember = TextAreaField("To Remember", validators=[DataRequired()])
-    tags = StringField("tags (as csv)", validators=[DataRequired()])
+class NewForm(Form):
+    """New entry form"""
+    title = StringField("Title", validators=[DataRequired()])
+    date = DateField("Date (dd.mm.yyyy)", format='%d.%m.%Y',
+                     validators=[DataRequired()])
+    time_spent = IntegerField("Time spent (hours as a whole number)",
+                              validators=[DataRequired()])
+    Characters = TextAreaField("Characters", validators=[DataRequired()])
+    Play = TextAreaField(
+        "Play",
+        validators=[DataRequired()])
+    tags = StringField("Keywords - Separated by ', ' (comma and space)",
+                       validators=[DataRequired()])
+
+
+class AdminForm(Form):
+    admin = BooleanField()

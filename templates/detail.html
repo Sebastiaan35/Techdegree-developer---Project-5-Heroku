@@ -4,31 +4,33 @@
 {% block detail %}
   <div class="entry-list single">
                       <article>
-                          <h1>{{ entry.Title }}</h1>
-                          <time datetime="{{entry.date}}">{{ entry.date }}</time>
+                          <h1>{{ entry.title }}</h1>
+                          <time datetime="{{entry.date}}">{{ entry.date.strftime('%d.%m.%Y') }}</time>
                           <div class="entry">
                               <h3>Time Spent: </h3>
-                              {% if entry.Time_Spent > 1 %}
-                                <p>{{ entry.Time_Spent }} Hours</p>
+                              {% if entry.time_spent > 1 %}
+                                <p>{{ entry.time_spent }} Hours</p>
                               {% else %}
-                                <p>{{ entry.Time_Spent }} Hour</p>
+                                <p>{{ entry.time_spent }} Hour</p>
                               {% endif %}
                           </div>
                           <div class="entry">
-                              <h3>What I Learned:</h3>
-                                {% if entry.What_You_Learned %}
-                                       {% for line in entry.What_You_Learned.split('\n') %}
+                              <h3>Characters:</h3>
+                                {% if entry.Characters %}
+                                       {% for line in entry.Characters.split('\n') %}
                                            <p>{{ line }}</p>
                                        {% endfor %}
                                 {% endif %}
                           </div>
                           <div class="entry">
-                              <h3>Resources to Remember:</h3>
+                              <h3>Play:</h3>
                               <ul>
-                                {% if entry.Resources_to_Remember %}
-                                  {% for line in entry.Resources_to_Remember.split('\n') %}
-                                    {% if line.find('http') > -1 or line.find('www.') > -1 %}
+                                {% if entry.Play %}
+                                  {% for line in entry.Play.split('\n') %}
+                                    {% if line.find('http') > -1 %}
                                       <li><a href="{{ line }}">{{ line }}</a></li>
+                                    {% elif line.find('www.') > -1 %}
+                                      <li><a href="http://{{ line }}">{{ line }}</a></li>
                                     {% else %}
                                       <li>{{ line }}</li>
                                     {% endif %}
@@ -41,7 +43,7 @@
                                 <p>{{ entry.tags }}</p>
                           </div>
                           <div class="entry">
-                                <i>Author: {{ entry.owner }}</i>
+                                <i>Entered by: {{ entry.owner }}</i>
                           </div>
                       </article>
   </div>

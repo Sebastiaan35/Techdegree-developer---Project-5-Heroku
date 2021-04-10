@@ -12,24 +12,44 @@
     </head>
 
     <body>
-        {% for mesg in get_flashed_messages() %}
-          <h1 style="text-align:center">{{ mesg }}</h1>
-        {% endfor %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class=flashes>
+            {% for category, message in messages %}
+              <br><h1 style="
+              position: absolute;
+              margin-left: auto;
+              margin-right: auto;
+              left: 0;
+              right: 0;
+              text-align: center;
+              {% if category == 'success' %}
+                color: green;
+              {% else %}
+                color: red;
+              {% endif %}
+              ">{{ message }}</h1>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
         <header>
             <div class="container">
                 <div class="site-header">
                     <a class="logo" href="{{ url_for('index')}}"><i class="material-icons">library_books</i></a>
-                    <div class="site-header">
-                      {% if current_user.is_authenticated %}
-                      <h5 style="text-align:right">Logged in: {{ current_user.username }}</h5>
-                      <a class="button icon-left" href="{{ url_for('Create_Entry')}}"><span>New Entry</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
-                      {% block detail2 %}{% endblock %}
-                      <a class="button icon-right" href="{{ url_for('logout') }}"><span>Logout</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
-                      {% else %}
-                      <a class="button icon-right" href="{{ url_for('login') }}"><span>Login</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
-                      <a class="button icon-right" href="{{ url_for('register') }}"><span>Register</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
-                      {% endif %}
-                    </div>
+                    {% if current_user.is_authenticated %}
+                    <h5 style="text-align:right">Logged in: {{ current_user.username }}</h5>
+                    <a class="button icon-left" href="{{ url_for('create_entry')}}"><span>New Entry</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
+                    {% block detail2 %}{% endblock %}
+                    <a class="button icon-right" href="{{ url_for('logout') }}"><span>Logout</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
+                    {% else %}
+                    <a class="button icon-right" href="{{ url_for('login') }}"><span>Login</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
+                    <a class="button icon-right" href="{{ url_for('register') }}"><span>Register</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
+                    {% endif %}
+                    {% block search %}{% endblock %}
+                    {% if current_user.is_admin %}
+                      <a class="button icon-right" href="{{ url_for('admin') }}"><span>Admin</span> <i class="material-icons">add</i></a><br><pre class="tab">      </pre>
+                    {% endif %}
                 </div>
             </div>
         </header>
@@ -41,11 +61,13 @@
                 {% block detail %}{% endblock %}
                 {% block register %}{% endblock %}
                 {% block login %}{% endblock %}
+                {% block users %}{% endblock %}
             </div>
         </section>
         <footer>
             <div>
-                &copy; Sebastiaan's Journal
+                &copy; Sebastiaan's Journal<br>
+                <img src="/static/Cover_Photo.jpg" alt="Sebastiaan van Vugt">
             </div>
         </footer>
     </body>

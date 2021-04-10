@@ -1,8 +1,11 @@
 {% macro render_field(field) %}
     <div class="field">
+        {% if field.widget.input_type != 'hidden'  %}      
+          {{ field.label }}
+        {% endif %}
         {% if field.errors %}
             {% for error in field.errors %}
-                <div class="notification error">{{ error }}</div>
+                <div class="notification error" style="color:red">{{ error }}</div>
             {% endfor %}
         {% endif %}
         {{ field(placeholder=field.label.text) }}

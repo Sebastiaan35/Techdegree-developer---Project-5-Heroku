@@ -1,17 +1,34 @@
 {% extends "layout.html" %}
 
 
-{% block all_entries %}
-  <div class="entry-list">
+{% block search %}
 
+<form method="POST" action="{{ url_for('search_by_title') }}" class="Search">
+  <label for="titlesearch">Search by title</label>
+  <input type='text' name='Search' class='Search' id='titlesearch' placeholder="Search by title" style="
+    width: 10%;
+    position: absolute;">
+</form><br><br><br><br><br><br>
+<form method="POST" action="{{ url_for('search_by_tag') }}" class="Search">
+   <label for="keysearch">Search by keyword</label>
+  <input type='text' name='Search' class='Search' id='keysearch' placeholder="Search by keyword" style="
+    width: 10%;
+    position: absolute;">
+</form>
+{% endblock %}
+
+
+{% block all_entries %}
+
+  <div class="entry-list">
     {% for entry in stream %}
         <article>
-                <h2><a href="{{ url_for('detail', id=entry.entry_id) }}">{{ entry.Title }}</a></h2>
+                <h2><a href="{{ url_for('detail', id=entry.entry_id) }}">{{ entry.title }}</a></h2>
                 {% for tag in entry.tags.split(', ') %}
-                  <i><a href="{{ url_for('Retrieve_By_Tag', tag=tag) }}">{{ tag }}</a></i>
+                  <i><a href="{{ url_for('retrieve_by_tag', tag=tag) }}">{{ tag }}</a></i>
                 {% endfor %}
                 <br><br>
-                <time datetime="{{ entry.date }}">Date: {{ entry.date }}</time> - By: {{ entry.owner }}
+                Entered by: {{ entry.owner }} - <time datetime="{{ entry.date }}">Date: {{ entry.date.strftime('%d.%m.%Y') }}</time>
         </article>
     {% endfor %}
 
