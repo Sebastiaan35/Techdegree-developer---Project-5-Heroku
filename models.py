@@ -9,8 +9,8 @@ from flask_login import UserMixin
 import csv, random
 
 
-db = PostgresqlDatabase('my_app', user='postgres', password='secret',
-                           host='10.1.0.9', port=5432)
+db = SqliteDatabase('journal.db')
+
 
 class User(UserMixin, Model):
     """Table for user info"""
